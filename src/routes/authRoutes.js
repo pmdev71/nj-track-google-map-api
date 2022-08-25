@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const router = express.Router();
@@ -21,7 +22,10 @@ router.post('/signup', (req, res) => {
         console.log(err);
         return res.status(500).send('Server error');
       }
-      return res.status(201).send(user);
+      const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET, {
+        expiresIn: '7d',
+      });
+      return res.status(201).send({ token: token, user: newUser });
     });
   });
 });
