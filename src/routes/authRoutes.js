@@ -27,12 +27,12 @@ router.post('/signup', async (req, res) => {
       const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET, {
         expiresIn: '7d',
       });
-      return res.status(201).send({ token: token, user: newUser });
+      return res.status(201).send({ token: token, user: user });
     });
   });
 });
-//login route
-// Login user
+
+//login/signin user route
 router.post('/signin', async (req, res) => {
   try {
     //let token;
@@ -42,17 +42,17 @@ router.post('/signin', async (req, res) => {
         .status(400)
         .json({ error: 'Please, enter email and password.' });
     }
-    const userLogin = await User.findOne({ email: email });
-    //console.log(userLogin);
+    const loginUser = await User.findOne({ email: email });
+    //console.log(loginUser);
 
-    if (userLogin) {
-      const isMatch = await bcrypt.compare(password, userLogin.password);
+    if (loginUser) {
+      const isMatch = await bcrypt.compare(password, loginUser.password);
 
       if (!isMatch) {
         res.status(400).json({ error: 'Invalid Credential password.' });
       } else {
-        const token = await jwt.sign(
-          { userID: User._id },
+        const token = jwt.sign(
+          { userID: loginUser._id },
           process.env.JWT_SECRET,
           {
             expiresIn: '7d',
@@ -65,7 +65,7 @@ router.post('/signin', async (req, res) => {
           httpOnly: true,
         });
         // res.status(200).json({ message: 'Successfully login' });
-        res.status(200).send({ token: token, user: userLogin });
+        res.status(200).send({ token: token, user: loginUser });
       }
     } else {
       res.status(400).json({ error: 'Invalid Credential' });
