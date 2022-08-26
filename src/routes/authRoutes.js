@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 const router = express.Router();
 
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
   const { email, password } = req.body;
   // Check if email already exists in the database
   User.findOne({ email }, (err, user) => {
