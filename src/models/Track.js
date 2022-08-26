@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+//pointSchema connect with trackSchema
 const pointSchema = new mongoose.Schema({
   timestamp: Number,
   coords: {
@@ -12,6 +13,7 @@ const pointSchema = new mongoose.Schema({
   },
 });
 
+//trackSchema
 const trackSchema = new mongoose.Schema({
   userID: {
     type: mongoose.Schema.Types.ObjectId,
@@ -26,12 +28,12 @@ const trackSchema = new mongoose.Schema({
 });
 
 // hasing password using bcrypt
-userSchema.pre('save', async function (next) {
-  if (this.isModified('password')) {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
-  next();
-});
+// userSchema.pre('save', async function (next) {
+//   if (this.isModified('password')) {
+//     this.password = await bcrypt.hash(this.password, 10);
+//   }
+//   next();
+// });
 
 const Track = mongoose.model('Track', trackSchema);
 module.exports = Track;
