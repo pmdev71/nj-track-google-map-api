@@ -24,7 +24,7 @@ router.post('/signup', async (req, res) => {
         console.log(err);
         return res.status(500).send('Server error');
       }
-      const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ userID: user }, process.env.JWT_SECRET, {
         expiresIn: '7d',
       });
       return res.status(201).send({ token: token, user: user });
@@ -51,13 +51,9 @@ router.post('/signin', async (req, res) => {
       if (!isMatch) {
         res.status(400).json({ error: 'Invalid Credential password.' });
       } else {
-        const token = jwt.sign(
-          { userID: loginUser._id },
-          process.env.JWT_SECRET,
-          {
-            expiresIn: '7d',
-          }
-        );
+        const token = jwt.sign({ userID: user }, process.env.JWT_SECRET, {
+          expiresIn: '7d',
+        });
         // console.log(token);
         //add token on cookies for 30 days
         res.cookie('jwtoken', token, {
