@@ -11,11 +11,11 @@ router.post('/signup', async (req, res) => {
   // Check if email already exists in the database
   User.findOne({ email }, (err, user) => {
     if (user) {
-      return res.status(400).send('Email already exists');
+      return res.status(400).send('Email already registered!');
     }
     if (err) {
       console.log(err);
-      return res.status(500).send('Server error');
+      return res.status(500).send('Server error!');
     }
     // If email doesn't exist, create a new user
     const newUser = new User({ email, password });

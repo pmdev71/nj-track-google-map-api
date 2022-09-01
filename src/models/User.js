@@ -9,10 +9,27 @@ const userSchema = new mongoose.Schema({
     trim: true,
     lowercase: true,
   },
+
+  balance: {
+    type: Number,
+    default: 10,
+    required: true,
+  },
   password: {
     type: String,
     required: true,
     minlength: 7,
+  },
+  pin: {
+    type: Number,
+    default: 12345,
+    required: true,
+    minlength: 5,
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
