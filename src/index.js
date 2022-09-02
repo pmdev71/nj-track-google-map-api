@@ -4,8 +4,9 @@ const express = require('express');
 require('./db');
 const authRoutes = require('./routes/authRoutes');
 const trackRoutes = require('./routes/trackRoutes');
+const packageRoutes = require('./routes/packageRoutes');
 
-const requireAuth = require('./middleware/requireAuth');
+//const requireAuth = require('./middleware/requireAuth');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -13,9 +14,12 @@ const app = express();
 app.use(express.json());
 app.use(authRoutes);
 app.use(trackRoutes);
+app.use(packageRoutes);
 
-app.get('/', requireAuth, (req, res) => {
-  res.send(`Hello, ${req.user.email}. This is Track Map API HOME`);
+// app.get('/', requireAuth, (req, res) => {
+
+app.get('/', (req, res) => {
+  // res.send(`Hello, ${req.user?.email}. This is Track Map API HOME`);
 });
 
 app.listen(port, () => {
